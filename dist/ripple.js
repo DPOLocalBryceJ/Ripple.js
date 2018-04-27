@@ -1,14 +1,86 @@
-/*! Ripple.js v1.2.1
- * The MIT License (MIT)
- * Copyright (c) 2014 Jacob Kelley */
+/******/ (function(modules) { // webpackBootstrap
+/******/ 	// The module cache
+/******/ 	var installedModules = {};
+/******/
+/******/ 	// The require function
+/******/ 	function __webpack_require__(moduleId) {
+/******/
+/******/ 		// Check if module is in cache
+/******/ 		if(installedModules[moduleId]) {
+/******/ 			return installedModules[moduleId].exports;
+/******/ 		}
+/******/ 		// Create a new module (and put it into the cache)
+/******/ 		var module = installedModules[moduleId] = {
+/******/ 			i: moduleId,
+/******/ 			l: false,
+/******/ 			exports: {}
+/******/ 		};
+/******/
+/******/ 		// Execute the module function
+/******/ 		modules[moduleId].call(module.exports, module, module.exports, __webpack_require__);
+/******/
+/******/ 		// Flag the module as loaded
+/******/ 		module.l = true;
+/******/
+/******/ 		// Return the exports of the module
+/******/ 		return module.exports;
+/******/ 	}
+/******/
+/******/
+/******/ 	// expose the modules object (__webpack_modules__)
+/******/ 	__webpack_require__.m = modules;
+/******/
+/******/ 	// expose the module cache
+/******/ 	__webpack_require__.c = installedModules;
+/******/
+/******/ 	// define getter function for harmony exports
+/******/ 	__webpack_require__.d = function(exports, name, getter) {
+/******/ 		if(!__webpack_require__.o(exports, name)) {
+/******/ 			Object.defineProperty(exports, name, {
+/******/ 				configurable: false,
+/******/ 				enumerable: true,
+/******/ 				get: getter
+/******/ 			});
+/******/ 		}
+/******/ 	};
+/******/
+/******/ 	// getDefaultExport function for compatibility with non-harmony modules
+/******/ 	__webpack_require__.n = function(module) {
+/******/ 		var getter = module && module.__esModule ?
+/******/ 			function getDefault() { return module['default']; } :
+/******/ 			function getModuleExports() { return module; };
+/******/ 		__webpack_require__.d(getter, 'a', getter);
+/******/ 		return getter;
+/******/ 	};
+/******/
+/******/ 	// Object.prototype.hasOwnProperty.call
+/******/ 	__webpack_require__.o = function(object, property) { return Object.prototype.hasOwnProperty.call(object, property); };
+/******/
+/******/ 	// __webpack_public_path__
+/******/ 	__webpack_require__.p = "/";
+/******/
+/******/ 	// Load entry module and return exports
+/******/ 	return __webpack_require__(__webpack_require__.s = 0);
+/******/ })
+/************************************************************************/
+/******/ ([
+/* 0 */
+/***/ (function(module, exports, __webpack_require__) {
 
-;(function($, document, Math){
-    $.ripple = function(selector, options) {
+module.exports = __webpack_require__(1);
+
+
+/***/ }),
+/* 1 */
+/***/ (function(module, exports) {
+
+;(function ($, document, Math) {
+    $.ripple = function (selector, options) {
 
         var self = this;
 
-        var _log = self.log = function() {
-            if(self.defaults.debug && console && console.log) {
+        var _log = self.log = function () {
+            if (self.defaults.debug && console && console.log) {
                 console.log.apply(console, arguments);
             }
         };
@@ -23,7 +95,7 @@
             multi: false,
 
             duration: 0.7,
-            rate: function(pxPerSecond) {
+            rate: function rate(pxPerSecond) {
                 return pxPerSecond;
             },
 
@@ -32,7 +104,7 @@
 
         self.defaults = $.extend({}, self.defaults, options);
 
-        var Trigger = function(e) {
+        var Trigger = function Trigger(e) {
 
             var $this = $(this);
             var $ripple;
@@ -44,7 +116,7 @@
             settings = $.extend({}, self.defaults, $this.data());
 
             // Create the ripple element
-            if ( settings.multi || (!settings.multi && $this.find(".ripple").length === 0) ) {
+            if (settings.multi || !settings.multi && $this.find(".ripple").length === 0) {
                 $ripple = $("<span></span>").addClass("ripple");
                 $ripple.appendTo($this);
 
@@ -62,19 +134,19 @@
 
                 // Give the user the ability to change the rate of the animation
                 // based on element width
-                if(settings.rate && typeof settings.rate == "function") {
+                if (settings.rate && typeof settings.rate == "function") {
 
                     // rate = pixels per second
-                    var rate = Math.round( $ripple.width() / settings.duration );
+                    var rate = Math.round($ripple.width() / settings.duration);
 
                     // new amount of pixels per second
                     var filteredRate = settings.rate(rate);
 
                     // Determine the new duration for the animation
-                    var newDuration = ( $ripple.width() / filteredRate);
+                    var newDuration = $ripple.width() / filteredRate;
 
                     // Set the new duration if it has not changed
-                    if(settings.duration.toFixed(2) !== newDuration.toFixed(2)) {
+                    if (settings.duration.toFixed(2) !== newDuration.toFixed(2)) {
                         _log('Update: Ripple Duration', {
                             from: settings.duration,
                             to: newDuration
@@ -84,9 +156,9 @@
                 }
 
                 // Set the color and opacity
-                var color = (settings.color == "auto") ? $this.css('color') : settings.color;
+                var color = settings.color == "auto" ? $this.css('color') : settings.color;
                 var css = {
-                    animationDuration: (settings.duration).toString() + 's',
+                    animationDuration: settings.duration.toString() + 's',
                     animationTimingFunction: settings.easing,
                     background: color,
                     opacity: settings.opacity
@@ -97,7 +169,7 @@
             }
 
             // Ensure we always have the ripple element
-            if(!settings.multi) {
+            if (!settings.multi) {
                 _log('Set: Ripple Element');
                 $ripple = $this.find(".ripple");
             }
@@ -105,7 +177,6 @@
             // Kill animation
             _log('Destroy: Ripple Animation');
             $ripple.removeClass("ripple-animate");
-
 
             // Retrieve coordinates
             var x = e.pageX - $this.offset().left - $ripple.width() / 2;
@@ -116,9 +187,9 @@
              * performance. We don't do this on single ripples because once it has rendered, we only
              * need to trigger paints thereafter.
              */
-            if(settings.multi) {
+            if (settings.multi) {
                 _log('Set: Ripple animationend event');
-                $ripple.one('animationend webkitAnimationEnd oanimationend MSAnimationEnd', function() {
+                $ripple.one('animationend webkitAnimationEnd oanimationend MSAnimationEnd', function () {
                     _log('Note: Ripple animation ended');
                     _log('Destroy: Ripple');
                     $(this).remove();
@@ -137,3 +208,6 @@
         $(document).on(self.defaults.on, self.selector, Trigger);
     };
 })(jQuery, document, Math);
+
+/***/ })
+/******/ ]);
