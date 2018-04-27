@@ -39,10 +39,16 @@ Elements can be overridden with their own default options:
 ```
 
 ## Building
+####Development Build
 ```bash
 $ npm install
-$ npm run-script build
-$ npm run-script build-watch # To watch assets
+$ npm run dev
+```
+
+####Production Build
+```bash
+$ npm install
+$ npm run prod #minnify code
 ```
 
 ## Caveats
